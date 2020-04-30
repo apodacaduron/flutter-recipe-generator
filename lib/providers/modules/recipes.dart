@@ -24,7 +24,7 @@ class RecipeState with ChangeNotifier {
   // Actions
   Future loadCategory(BuildContext context, Map payload) async {
     try {
-      final res = await http.get('$_api&q=${payload['category']}&from=0&to=24', headers: _headers);
+      final res = await http.get('$_api&q=${payload['category']}&from=0&to=20', headers: _headers);
       var response = json.decode(res.body);
       if (response['error'] != null) {
         showDialog(context: context, child: Alert(title: 'Oops...', text: 'Something went wrong'));

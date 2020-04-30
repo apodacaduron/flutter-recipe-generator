@@ -18,15 +18,23 @@ class MainState with ChangeNotifier {
   // Mutations
   hideWelcome() async {
     await storage.write(key: 'showWelcome', value: 'hide');
+    notifyListeners();
+  }
+
+  clearStorage() async {
+    await storage.deleteAll();
+    notifyListeners();
   }
 
   Stream<bool> readStoredToken() async* {
     isLoading = true;
     String welcome = await storage.read(key: 'showWelcome');
     if (welcome == null) {
-      _showWelcome = false;
-      yield true;
+      _showWelcome = true;
       isLoading = false;
+      yield true;
+    } else {
+      _showWelcome = false;
     }
     isLoading = false;
     yield false;
