@@ -34,7 +34,10 @@ class RecipeState with ChangeNotifier {
   }
 
   void setRecipes(Map response) {
-    recipes.addAll(response['hits']);
+    recipes == null ? recipes = response['hits'] : recipes.addAll(response['hits']);
+    pagination['from'] = response['from'];
+    pagination['to'] = response['to'];
+    pagination['more'] = response['more'];
   }
 
   void cleanRecipes() {

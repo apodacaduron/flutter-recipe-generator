@@ -16,7 +16,7 @@ class NoResults extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text('You don\'t have any projects on this stage.'),
+        Text('There are no recipes available at the moment.'),
       ],
     ));
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:recipe_generator/views/home.dart';
+import 'package:recipe_generator/views/recipeDetail.dart';
 import 'package:recipe_generator/views/recipes.dart';
 
 Route customRoutes(namedRoutes, arguments) {
@@ -9,6 +10,8 @@ Route customRoutes(namedRoutes, arguments) {
       return _createRoute(Home());
     case '/recipes':
       return _createRoute(Recipe());
+    case '/recipe-detail':
+      return _createRoute(RecipeDetail());
     default:
       return _createRoute(Home());
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_generator/components/customAppBar.dart';
 import 'package:recipe_generator/components/elements/recipeCard.dart';
+import 'package:recipe_generator/components/noResults.dart';
 import 'package:recipe_generator/providers/modules/recipes.dart';
 
 class Recipe extends StatefulWidget {
@@ -21,14 +22,16 @@ class _RecipeState extends State<Recipe> {
     Provider.of<RecipeState>(context, listen: false).moreRecipes();
   }
 
+  int get pagination => Provider.of<RecipeState>(context, listen: false).pagination['to'];
+  bool get hasMore => Provider.of<RecipeState>(context, listen: false).pagination['more'];
+
   @override
   void initState() {
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent ==
-          scrollController.offset) {
+          scrollController.offset && pagination < 100 && hasMore) {
         moreRecipes();
         loadCategory(context);
-        print('entro');
       }
     });
     super.initState();
@@ -41,7 +44,7 @@ class _RecipeState extends State<Recipe> {
       return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: recipeState.recipes.length,
+        itemCount: recipeState.recipes.length + 1,
         itemBuilder: (context, index) {
           if (index < recipeState.recipes.length) {
             final item = recipeState.recipes[index];
@@ -49,7 +52,22 @@ class _RecipeState extends State<Recipe> {
               recipe: item['recipe'],
               // selectHandler: setSelectedRfi,
             );
-          }
+          } else if (pagination < 100 && hasMore) {
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 32.0),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            } else {
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 32.0),
+                child: Center(
+                  child: Text(
+                    'You\'ve reached the end of the list!',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+              );
+            }
         },
       );
     } else if (recipeState.recipes == null) {
@@ -60,7 +78,7 @@ class _RecipeState extends State<Recipe> {
         ),
       );
     } else {
-      // return NoResults();
+      return NoResults();
     }
     // }
     // return CircularProgressIndicator();
