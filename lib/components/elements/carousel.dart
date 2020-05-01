@@ -5,8 +5,9 @@ class Carousel extends StatelessWidget {
   final String placeholder = 'http://via.placeholder.com/288x188';
   final List<Map> list;
   final int length;
+  final Function method;
 
-  Carousel({this.list, this.length = 0});
+  Carousel({this.list, this.length = 0, this.method});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class Carousel extends StatelessWidget {
       height: 270,
       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Swiper(
+        onTap: (index) => method(context, index, list[index]),
         itemBuilder: (BuildContext context, int index) {
           var item = list[index];
           return Stack(
@@ -35,7 +37,7 @@ class Carousel extends StatelessWidget {
               ),
               Positioned(
                 child: Text(
-                  '${item['type']}',
+                  '${item['name']}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,

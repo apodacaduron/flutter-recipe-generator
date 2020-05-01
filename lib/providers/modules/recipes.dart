@@ -13,25 +13,83 @@ class RecipeState with ChangeNotifier {
   }
 
   // State
-  List recipes;
+  List<dynamic> recipes;
+  Map selectedCategory;
   Map selectedRecipe;
+  bool isLoading = true;
+  Map pagination;
 
-  RecipeState();
+  RecipeState({
+    this.pagination = const {
+      'from': 0,
+      'to': 24,
+      'more': true,
+    },
+  });
   // Getters
 
   // Mutations
+  void setCategory(Map category) {
+    selectedCategory = category;
+  }
+
+  void setRecipes(Map response) {
+    recipes.addAll(response['hits']);
+  }
+
+  void cleanRecipes() {
+    recipes = null;
+    pagination = {'from': 0, 'to': 20, 'more': true};
+  }
+
+  void moreRecipes() {
+    pagination = {'from': pagination['from'] + 20, 'to': pagination['to'] + 20, 'more': true};
+  }
 
   // Actions
-  Future loadCategory(BuildContext context, Map payload) async {
+  Future loadCategory(BuildContext context) async {
     try {
-      final res = await http.get('$_api&q=${payload['category']}&from=0&to=20', headers: _headers);
+      isLoading = true;
+      String query = selectedCategory['subcategory'] != null
+          ? '${selectedCategory['category']}=${selectedCategory['subcategory']}'
+          : '${selectedCategory['category']}';
+      final res = await http.get(
+          '$_api&q=$query&from=${pagination['from'].toString()}&to=${pagination['to'].toString()}',
+          headers: _headers);
       var response = json.decode(res.body);
       if (response['error'] != null) {
-        showDialog(context: context, child: Alert(title: 'Oops...', text: 'Something went wrong'));
+        showDialog(
+            context: context,
+            child: Alert(title: 'Oops...', text: 'Something went wrong'));
+      }
+      setRecipes(response);
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      showDialog(
+          context: context,
+          child: Alert(
+              title: 'Oops...', text: 'An error occurred, please try again.'));
+      print(e);
+    }
+  }
+
+  Future loadRecipe(BuildContext context, Map payload) async {
+    try {
+      final res = await http.get('$_api&r=${payload['recipe']}&from=0&to=20',
+          headers: _headers);
+      var response = json.decode(res.body);
+      if (response['error'] != null) {
+        showDialog(
+            context: context,
+            child: Alert(title: 'Oops...', text: 'Something went wrong'));
       }
       notifyListeners();
     } catch (e) {
-      showDialog(context: context, child: Alert(title: 'Oops...', text: 'An error occurred, please try again.'));
+      showDialog(
+          context: context,
+          child: Alert(
+              title: 'Oops...', text: 'An error occurred, please try again.'));
       print(e);
     }
   }

@@ -1,11 +1,14 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:recipe_generator/views/home.dart';
+import 'package:recipe_generator/views/recipes.dart';
 
 Route customRoutes(namedRoutes, arguments) {
   switch (namedRoutes) {
     case '/home':
       return _createRoute(Home());
+    case '/recipes':
+      return _createRoute(Recipe());
     default:
       return _createRoute(Home());
   }

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatefulWidget {
-  @override
-  _CustomAppBarState createState() => _CustomAppBarState();
-}
+class CustomAppBar extends StatelessWidget {
+  final String text1;
+  final String text2;
 
-class _CustomAppBarState extends State<CustomAppBar> {
+  CustomAppBar({ this.text1 = '', this.text2 = '' });
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,14 +18,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Choose your',
+                  text1,
                   style: TextStyle(color: Colors.grey, fontSize: 22),
                 ),
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Food Category',
+                  text2,
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
