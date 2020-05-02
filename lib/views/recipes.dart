@@ -18,6 +18,12 @@ class _RecipeState extends State<Recipe> {
         .loadCategory(context);
   }
 
+  setRecipe(BuildContext context, payload) {
+    Provider.of<RecipeState>(context, listen: false)
+        .setRecipe(payload);
+    Navigator.pushNamed(context, '/recipe-detail');
+  }
+
   void moreRecipes() {
     Provider.of<RecipeState>(context, listen: false).moreRecipes();
   }
@@ -50,7 +56,7 @@ class _RecipeState extends State<Recipe> {
             final item = recipeState.recipes[index];
             return RecipeCard(
               recipe: item['recipe'],
-              // selectHandler: setSelectedRfi,
+              selectHandler: setRecipe,
             );
           } else if (pagination < 100 && hasMore) {
               return Padding(

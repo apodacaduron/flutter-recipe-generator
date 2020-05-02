@@ -22,7 +22,7 @@ class RecipeState with ChangeNotifier {
   RecipeState({
     this.pagination = const {
       'from': 0,
-      'to': 24,
+      'to': 15,
       'more': true,
     },
   });
@@ -31,6 +31,10 @@ class RecipeState with ChangeNotifier {
   // Mutations
   void setCategory(Map category) {
     selectedCategory = category;
+  }
+
+  void setRecipe(Map recipe) {
+    selectedRecipe = recipe;
   }
 
   void setRecipes(Map response) {
@@ -42,11 +46,11 @@ class RecipeState with ChangeNotifier {
 
   void cleanRecipes() {
     recipes = null;
-    pagination = {'from': 0, 'to': 20, 'more': true};
+    pagination = {'from': 0, 'to': 15, 'more': true};
   }
 
   void moreRecipes() {
-    pagination = {'from': pagination['from'] + 20, 'to': pagination['to'] + 20, 'more': true};
+    pagination = {'from': pagination['from'] + 15, 'to': pagination['to'] + 15, 'more': true};
   }
 
   // Actions
@@ -77,9 +81,33 @@ class RecipeState with ChangeNotifier {
     }
   }
 
+  Future searchBar(BuildContext context, Map payload) async {
+    try {
+      isLoading = true;
+      final res = await http.get(
+          '$_api&q=${payload['query']}&from=${pagination['from'].toString()}&to=${pagination['to'].toString()}',
+          headers: _headers);
+      var response = json.decode(res.body);
+      if (response['error'] != null) {
+        showDialog(
+            context: context,
+            child: Alert(title: 'Oops...', text: 'Something went wrong'));
+      }
+      setRecipes(response);
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      showDialog(
+          context: context,
+          child: Alert(
+              title: 'Oops...', text: 'An error occurred, please try again.'));
+      print(e);
+    }
+  }
+
   Future loadRecipe(BuildContext context, Map payload) async {
     try {
-      final res = await http.get('$_api&r=${payload['recipe']}&from=0&to=20',
+      final res = await http.get('$_api&r=${payload['recipe']}',
           headers: _headers);
       var response = json.decode(res.body);
       if (response['error'] != null) {

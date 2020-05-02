@@ -4,8 +4,10 @@ import 'package:transparent_image/transparent_image.dart';
 
 class RecipeCard extends StatelessWidget {
   final Map recipe;
+  final Function selectHandler;
 
-  RecipeCard({this.recipe});
+  RecipeCard({this.recipe, this.selectHandler});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,7 +18,7 @@ class RecipeCard extends StatelessWidget {
         child: InkWell(
           splashColor: Color.fromRGBO(16, 172, 132, 0.3),
           highlightColor: Color.fromRGBO(16, 172, 132, 0.1),
-          onTap: () => null,
+          onTap: () => selectHandler(context, recipe),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -48,14 +50,16 @@ class RecipeCard extends StatelessWidget {
                               recipe['calories'].round().toString(),
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(' Calories'),
-                            Text(' · '),
+                            Text(' Calories · '),
                             Text(
                               recipe['ingredients'].length.toString(),
                               style: TextStyle(fontWeight: FontWeight.bold),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Text(' Ingredients', overflow: TextOverflow.ellipsis,),
+                            Text(
+                              ' Ingredients',
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ],
                         ),
                       ],
@@ -74,7 +78,8 @@ class RecipeCard extends StatelessWidget {
                             Center(
                               child: FadeInImage.memoryNetwork(
                                 placeholder: kTransparentImage,
-                                fadeInDuration: const Duration(milliseconds: 300),
+                                fadeInDuration:
+                                    const Duration(milliseconds: 300),
                                 image: recipe['image'],
                               ),
                             ),

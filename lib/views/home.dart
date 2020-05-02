@@ -47,9 +47,9 @@ class Home extends StatelessWidget {
     },
     {
       'image': 'nutfree.jpg',
-      'name': 'Nut-Free',
+      'name': 'Gluten-Free',
       'category': 'health',
-      'subcategory': 'tree-nut-free',
+      'subcategory': 'gluten-free',
 
     },
   ];
