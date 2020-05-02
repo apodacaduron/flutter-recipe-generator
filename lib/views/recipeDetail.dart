@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:recipe_generator/components/elements/donutChart.dart';
 import 'package:recipe_generator/components/elements/macroSeries.dart';
 
@@ -15,9 +16,24 @@ class RecipeDetail extends StatefulWidget {
 class _RecipeDetailState extends State<RecipeDetail> {
   Map recipe = {};
   List<MacroSeries> data = [
-    MacroSeries(amount: 1, unit: 'g'),
-    MacroSeries(amount: 2, unit: 'g2'),
-    MacroSeries(amount: 3, unit: 'g')
+    MacroSeries(
+      amount: 1,
+      label: 'Fats',
+      unit: 'g',
+      barColor: charts.ColorUtil.fromDartColor(Colors.green[300]),
+    ),
+    MacroSeries(
+      amount: 2,
+      label: 'Proteins',
+      unit: 'g',
+      barColor: charts.ColorUtil.fromDartColor(Colors.green[900]),
+    ),
+    MacroSeries(
+      amount: 3,
+      label: 'Carbs',
+      unit: 'g',
+      barColor: charts.ColorUtil.fromDartColor(Colors.green[600]),
+    ),
   ];
 
   Future<void> loadRecipe(BuildContext context) async {
@@ -258,6 +274,43 @@ class _RecipeDetailState extends State<RecipeDetail> {
                     ),
                   ),
                   Container(height: 300, child: DonutPieChart(data)),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.green[300],
+                          radius: 10,
+                        ),
+                        Text(
+                          ' Fats',
+                          style: TextStyle(),
+                        ),
+                        Spacer(),
+                        CircleAvatar(
+                          backgroundColor: Colors.green[600],
+                          radius: 10,
+                        ),
+                        Text(
+                          ' Carbs',
+                          style: TextStyle(),
+                        ),
+                        Spacer(),
+                        CircleAvatar(
+                          backgroundColor: Colors.green[900],
+                          radius: 10,
+                        ),
+                        Text(
+                          ' Proteins',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20,)
                 ],
               ),
             ),

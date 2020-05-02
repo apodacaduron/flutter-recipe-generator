@@ -9,19 +9,22 @@ class DonutPieChart extends StatelessWidget {
   DonutPieChart(this.data, {this.animate});
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     List<charts.Series<MacroSeries, String>> series = [
       charts.Series(
         id: 'Macros',
-        domainFn: (MacroSeries series, _) => series.unit,
-        measureFn: (MacroSeries series, _) => series.amount,
         data: data,
+        domainFn: (MacroSeries series, _) => series.label,
+        measureFn: (MacroSeries series, _) => series.amount,
+        colorFn: (MacroSeries series, _) => series.barColor,
+        labelAccessorFn: (MacroSeries row, _) =>
+            '${row.amount}${row.unit}',
       )
     ];
-    return new charts.PieChart(
-      series,
-      animate: animate,
-      defaultRenderer: new charts.ArcRendererConfig(arcWidth: 60),
-    );
+    return new charts.PieChart(series,
+        animate: animate,
+        defaultRenderer: new charts.ArcRendererConfig(
+            arcWidth: 60,
+            arcRendererDecorators: [new charts.ArcLabelDecorator()]));
   }
 }
