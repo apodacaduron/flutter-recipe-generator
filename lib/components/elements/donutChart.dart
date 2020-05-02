@@ -15,10 +15,10 @@ class DonutPieChart extends StatelessWidget {
         id: 'Macros',
         data: data,
         domainFn: (MacroSeries series, _) => series.label,
-        measureFn: (MacroSeries series, _) => series.amount,
+        measureFn: (MacroSeries series, _) => series.amount.round(),
         colorFn: (MacroSeries series, _) => series.barColor,
         labelAccessorFn: (MacroSeries row, _) =>
-            '${row.amount}${row.unit}',
+            '${row.amount.round()}${row.unit}',
       )
     ];
     return new charts.PieChart(series,

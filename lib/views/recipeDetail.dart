@@ -17,19 +17,19 @@ class _RecipeDetailState extends State<RecipeDetail> {
   Map recipe = {};
   List<MacroSeries> data = [
     MacroSeries(
-      amount: 1,
+      amount: 0,
       label: 'Fats',
       unit: 'g',
       barColor: charts.ColorUtil.fromDartColor(Colors.green[300]),
     ),
     MacroSeries(
-      amount: 2,
+      amount: 0,
       label: 'Proteins',
       unit: 'g',
       barColor: charts.ColorUtil.fromDartColor(Colors.green[900]),
     ),
     MacroSeries(
-      amount: 3,
+      amount: 0,
       label: 'Carbs',
       unit: 'g',
       barColor: charts.ColorUtil.fromDartColor(Colors.green[600]),
@@ -40,6 +40,28 @@ class _RecipeDetailState extends State<RecipeDetail> {
     setState(() {
       recipe = Provider.of<RecipeState>(context, listen: false).selectedRecipe;
     });
+    if (recipe != null && recipe['totalNutrients'] != null && recipe['totalNutrients'].length > 0) {
+      data = [
+        MacroSeries(
+          amount: recipe['totalNutrients']['FAT']['quantity'],
+          label: 'Fats',
+          unit: 'g',
+          barColor: charts.ColorUtil.fromDartColor(Colors.green[300]),
+        ),
+        MacroSeries(
+          amount: recipe['totalNutrients']['CHOCDF']['quantity'],
+          label: 'Proteins',
+          unit: 'g',
+          barColor: charts.ColorUtil.fromDartColor(Colors.green[900]),
+        ),
+        MacroSeries(
+          amount: recipe['totalNutrients']['PROCNT']['quantity'],
+          label: 'Carbs',
+          unit: 'g',
+          barColor: charts.ColorUtil.fromDartColor(Colors.green[600]),
+        ),
+      ];
+    }
   }
 
   @override
@@ -310,7 +332,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,)
+                  SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
             ),
