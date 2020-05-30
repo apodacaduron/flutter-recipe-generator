@@ -4,7 +4,7 @@ class CustomAppBar extends StatelessWidget {
   final String text1;
   final String text2;
 
-  CustomAppBar({ this.text1 = '', this.text2 = '' });
+  CustomAppBar({this.text1 = '', this.text2 = ''});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,6 +12,14 @@ class CustomAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(width: 10,),
+          IconButton(
+            color: Colors.black,
+            icon: Icon(Icons.arrow_back),
+            tooltip: 'Go back to recipes list',
+            onPressed: () => Navigator.pop(context),
+          ),
+          Spacer(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -34,6 +42,14 @@ class CustomAppBar extends StatelessWidget {
               ),
             ],
           ),
+          Spacer(),
+          IconButton(
+            color: Colors.black,
+            icon: Icon(Icons.fastfood),
+            tooltip: 'Go back to recipes list',
+            onPressed: () => Navigator.pop(context),
+          ),
+          SizedBox(width: 10,),
         ],
       ),
     );

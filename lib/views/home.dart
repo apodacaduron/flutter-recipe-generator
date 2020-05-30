@@ -50,7 +50,6 @@ class Home extends StatelessWidget {
       'name': 'Gluten-Free',
       'category': 'health',
       'subcategory': 'gluten-free',
-
     },
   ];
   final List<Map> diet = [
@@ -127,7 +126,8 @@ class Home extends StatelessWidget {
   }
 
   navigateTo(BuildContext context, index, category) async {
-    Map selectedCategory = Provider.of<RecipeState>(context, listen: false).selectedCategory;
+    Map selectedCategory =
+        Provider.of<RecipeState>(context, listen: false).selectedCategory;
     if (selectedCategory != category) {
       Provider.of<RecipeState>(context, listen: false).cleanRecipes();
       Provider.of<RecipeState>(context, listen: false).setCategory(category);
@@ -143,7 +143,10 @@ class Home extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomAppBar(text1: 'Choose your', text2: 'Food Category',),
+              CustomAppBar(
+                text1: 'Choose your',
+                text2: 'Food Category',
+              ),
               Container(
                 child: Column(
                   children: [
@@ -152,8 +155,8 @@ class Home extends StatelessWidget {
                     ),
                     Text(
                       'Meals of the day',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 24),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                     ),
                     Carousel(
                       list: mealsOfDay,
@@ -162,8 +165,8 @@ class Home extends StatelessWidget {
                     ),
                     Text(
                       'Healthy',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 24),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                     ),
                     Carousel(
                       list: healthy,
@@ -172,8 +175,8 @@ class Home extends StatelessWidget {
                     ),
                     Text(
                       'Diet',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 24),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                     ),
                     Carousel(
                       list: diet,
@@ -182,15 +185,17 @@ class Home extends StatelessWidget {
                     ),
                     Text(
                       'Culture',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 24),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                     ),
                     Carousel(
                       list: culture,
                       length: culture.length,
                       method: navigateTo,
                     ),
-                    SizedBox(height: 30,)
+                    SizedBox(
+                      height: 30,
+                    )
                   ],
                 ),
               ),

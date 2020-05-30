@@ -19,8 +19,7 @@ class _RecipeState extends State<Recipe> {
   }
 
   setRecipe(BuildContext context, payload) {
-    Provider.of<RecipeState>(context, listen: false)
-        .setRecipe(payload);
+    Provider.of<RecipeState>(context, listen: false).setRecipe(payload);
     Navigator.pushNamed(context, '/recipe-detail');
   }
 
@@ -28,14 +27,18 @@ class _RecipeState extends State<Recipe> {
     Provider.of<RecipeState>(context, listen: false).moreRecipes();
   }
 
-  int get pagination => Provider.of<RecipeState>(context, listen: false).pagination['to'];
-  bool get hasMore => Provider.of<RecipeState>(context, listen: false).pagination['more'];
+  int get pagination =>
+      Provider.of<RecipeState>(context, listen: false).pagination['to'];
+  bool get hasMore =>
+      Provider.of<RecipeState>(context, listen: false).pagination['more'];
 
   @override
   void initState() {
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent ==
-          scrollController.offset && pagination < 100 && hasMore) {
+              scrollController.offset &&
+          pagination < 100 &&
+          hasMore) {
         moreRecipes();
         loadCategory(context);
       }
@@ -59,21 +62,21 @@ class _RecipeState extends State<Recipe> {
               selectHandler: setRecipe,
             );
           } else if (pagination < 100 && hasMore) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 32.0),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            } else {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 32.0),
-                child: Center(
-                  child: Text(
-                    'You\'ve reached the end of the list!',
-                    style: TextStyle(color: Colors.grey),
-                  ),
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 32.0),
+              child: Center(child: CircularProgressIndicator()),
+            );
+          } else {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 32.0),
+              child: Center(
+                child: Text(
+                  'You\'ve reached the end of the list!',
+                  style: TextStyle(color: Colors.grey),
                 ),
-              );
-            }
+              ),
+            );
+          }
         },
       );
     } else if (recipeState.recipes == null) {
@@ -101,8 +104,9 @@ class _RecipeState extends State<Recipe> {
             child: Column(
               children: [
                 CustomAppBar(
-                    text1: 'Time to select',
-                    text2: recipeState.selectedCategory['name']),
+                  text1: 'Time to select',
+                  text2: recipeState.selectedCategory['name'],
+                ),
                 Container(
                   padding: EdgeInsets.only(
                     left: 20,
